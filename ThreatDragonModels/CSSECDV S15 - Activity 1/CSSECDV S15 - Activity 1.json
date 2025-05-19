@@ -560,6 +560,58 @@
               "port": "716eaadd-b3d8-4ead-a226-c17c0d8f706d"
             },
             "vertices": []
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Trust Boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "labels": [
+              "Trust Boundary"
+            ],
+            "id": "e60bad69-97cf-4abf-90e0-2b4c83db1925",
+            "source": {
+              "x": 230,
+              "y": 100
+            },
+            "target": {
+              "x": 640,
+              "y": 190
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Trust Boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "labels": [
+              "Trust Boundary"
+            ],
+            "id": "b9dd3b66-5351-4334-abb8-9518ba4a842a",
+            "source": {
+              "x": 610,
+              "y": 230
+            },
+            "target": {
+              "x": 540,
+              "y": 510
+            }
           }
         ],
         "description": "This is a description."

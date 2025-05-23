@@ -38,6 +38,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 1,
             "ports": {
               "groups": {
                 "top": {
@@ -121,7 +122,6 @@
               ]
             },
             "id": "c2b86aeb-4a9f-4b8f-b1e6-76e8e8ee70be",
-            "zIndex": 1,
             "data": {
               "type": "tm.Process",
               "name": "authN",
@@ -176,6 +176,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 2,
             "ports": {
               "groups": {
                 "top": {
@@ -259,7 +260,6 @@
               ]
             },
             "id": "b63bd250-cb39-4c4c-8580-302684e75a94",
-            "zIndex": 2,
             "data": {
               "type": "tm.Store",
               "name": "ldap",
@@ -310,6 +310,7 @@
             },
             "visible": true,
             "shape": "actor",
+            "zIndex": 3,
             "ports": {
               "groups": {
                 "top": {
@@ -393,7 +394,6 @@
               ]
             },
             "id": "288000da-5c10-4425-806c-f895e191bb86",
-            "zIndex": 3,
             "data": {
               "type": "tm.Actor",
               "name": "end-user",
@@ -415,6 +415,19 @@
                   "new": false,
                   "number": 1,
                   "score": "9"
+                },
+                {
+                  "id": "6761ce7c-50c5-4f26-a593-7d6eeedf30a1",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Repudiation",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 7,
+                  "score": ""
                 }
               ],
               "threatFrequency": {
@@ -444,7 +457,7 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "Data Flow",
+              "name": "submits credentials",
               "description": "",
               "outOfScope": false,
               "reasonOutOfScope": "",
@@ -488,7 +501,7 @@
               }
             },
             "labels": [
-              "Data Flow"
+              "submits credentials"
             ],
             "id": "6ab45720-5b59-4de3-89c1-7956fa1b792b",
             "source": {
@@ -499,67 +512,12 @@
               "cell": "c2b86aeb-4a9f-4b8f-b1e6-76e8e8ee70be",
               "port": "71987452-fcde-48cb-838c-3ff3ffff64dd"
             },
-            "vertices": []
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": ""
-                },
-                "strokeDasharray": null
+            "vertices": [
+              {
+                "x": 421,
+                "y": 200
               }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "Data Flow",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": true,
-              "isBidirectional": false,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": [
-                {
-                  "id": "9a147db6-b610-4f69-b60d-eccaa8a3cf3a",
-                  "title": "New STRIDE threat",
-                  "status": "Open",
-                  "severity": "TBD",
-                  "type": "Tampering",
-                  "description": "Provide a description for this threat",
-                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
-                  "modelType": "STRIDE",
-                  "new": true,
-                  "number": 5,
-                  "score": ""
-                }
-              ]
-            },
-            "labels": [
-              "Data Flow"
-            ],
-            "id": "da0b5458-935f-4b3a-ab41-5f761f1b8d88",
-            "source": {
-              "cell": "c2b86aeb-4a9f-4b8f-b1e6-76e8e8ee70be",
-              "port": "8a819ea0-3c33-4f6b-8658-5263101d17fd"
-            },
-            "target": {
-              "cell": "b63bd250-cb39-4c4c-8580-302684e75a94",
-              "port": "716eaadd-b3d8-4ead-a226-c17c0d8f706d"
-            },
-            "vertices": []
+            ]
           },
           {
             "shape": "trust-boundary-curve",
@@ -585,7 +543,13 @@
             "target": {
               "x": 640,
               "y": 190
-            }
+            },
+            "vertices": [
+              {
+                "x": 550,
+                "y": 170
+              }
+            ]
           },
           {
             "shape": "trust-boundary-curve",
@@ -611,7 +575,73 @@
             "target": {
               "x": 540,
               "y": 510
-            }
+            },
+            "vertices": [
+              {
+                "x": 610,
+                "y": 250
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "submits credentials",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "9a147db6-b610-4f69-b60d-eccaa8a3cf3a",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Tampering",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 5,
+                  "score": ""
+                }
+              ]
+            },
+            "labels": [
+              "submits credentials"
+            ],
+            "id": "da0b5458-935f-4b3a-ab41-5f761f1b8d88",
+            "source": {
+              "cell": "c2b86aeb-4a9f-4b8f-b1e6-76e8e8ee70be",
+              "port": "8a819ea0-3c33-4f6b-8658-5263101d17fd"
+            },
+            "target": {
+              "cell": "b63bd250-cb39-4c4c-8580-302684e75a94",
+              "port": "716eaadd-b3d8-4ead-a226-c17c0d8f706d"
+            },
+            "vertices": []
           }
         ],
         "description": "This is a description."
@@ -619,6 +649,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "",
-    "threatTop": 6
+    "threatTop": 7
   }
 }

@@ -1,0 +1,606 @@
+{
+  "summary": {
+    "title": "QAI System - SOC 2 Threat Model",
+    "owner": "Security Team",
+    "description": "Comprehensive threat model for QAI (Quality Assurance Intelligence) system using AWS serverless architecture for SOC 2 Type 2 audit",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [
+      {
+        "name": "Security Architect"
+      }
+    ],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "QAI System Data Flow",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "position": {
+              "x": 50,
+              "y": 50
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "actor",
+            "id": "external-ringdna",
+            "zIndex": 1,
+            "data": {
+              "type": "tm.Actor",
+              "name": "RingDNA Platform",
+              "description": "External call recording platform",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "threat-1",
+                  "title": "Spoofing - Unauthorized API Access",
+                  "type": "Spoofing",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Attacker could impersonate RingDNA platform to inject malicious recordings",
+                  "mitigation": "Implement API key authentication, IP whitelisting, and mutual TLS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "threat-2",
+                  "title": "Information Disclosure - Data in Transit",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Sensitive call recordings could be intercepted during transmission",
+                  "mitigation": "Enforce TLS 1.2+ encryption for all API communications",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 50,
+              "y": 200
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "actor",
+            "id": "external-vicidial",
+            "zIndex": 2,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Vicidial Platform",
+              "description": "External call recording platform",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "threat-3",
+                  "title": "Spoofing - Platform Impersonation",
+                  "type": "Spoofing",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Unauthorized access by impersonating Vicidial platform",
+                  "mitigation": "Implement strong authentication and source validation",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 3,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 300,
+              "y": 50
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "store",
+            "id": "s3-ingestion",
+            "zIndex": 3,
+            "data": {
+              "type": "tm.Store",
+              "name": "S3 Ingestion Bucket",
+              "description": "Primary storage for incoming media files",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": true,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-4",
+                  "title": "Information Disclosure - Unauthorized Access",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Sensitive media files could be accessed by unauthorized users",
+                  "mitigation": "Implement bucket policies, IAM roles, and encryption at rest (AES-256)",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                },
+                {
+                  "id": "threat-5",
+                  "title": "Tampering - Data Modification",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Media files could be modified or corrupted",
+                  "mitigation": "Enable S3 versioning, object lock, and integrity checks",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 5,
+                  "score": ""
+                },
+                {
+                  "id": "threat-6",
+                  "title": "Denial of Service - Storage Exhaustion",
+                  "type": "Denial of service",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Excessive uploads could exhaust storage capacity",
+                  "mitigation": "Implement upload rate limiting and storage quotas",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 6,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 550,
+              "y": 125
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "process",
+            "id": "stepfunctions-orchestrator",
+            "zIndex": 4,
+            "data": {
+              "type": "tm.Process",
+              "name": "Step Functions Orchestrator",
+              "description": "Main workflow orchestration for QAI processing",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebService": true,
+              "privilegeLevel": "High",
+              "threats": [
+                {
+                  "id": "threat-7",
+                  "title": "Elevation of Privilege - Excessive Permissions",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Step Functions could have excessive IAM permissions",
+                  "mitigation": "Apply principle of least privilege, regular permission audits",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 7,
+                  "score": ""
+                },
+                {
+                  "id": "threat-8",
+                  "title": "Denial of Service - Workflow Exhaustion",
+                  "type": "Denial of service",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Excessive concurrent executions could exhaust resources",
+                  "mitigation": "Implement execution limits and throttling",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                },
+                {
+                  "id": "threat-9",
+                  "title": "Repudiation - Missing Audit Trail",
+                  "type": "Repudiation",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Workflow executions might not be properly logged",
+                  "mitigation": "Enable CloudTrail logging and Step Functions execution history",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 800,
+              "y": 50
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "store",
+            "id": "sqs-queues",
+            "zIndex": 5,
+            "data": {
+              "type": "tm.Store",
+              "name": "SQS Message Queues",
+              "description": "Message queues for async processing coordination",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": true,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-10",
+                  "title": "Information Disclosure - Message Interception",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Sensitive data in messages could be exposed",
+                  "mitigation": "Enable SQS encryption at rest and in transit",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                },
+                {
+                  "id": "threat-11",
+                  "title": "Tampering - Message Modification",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Messages could be modified during processing",
+                  "mitigation": "Implement message integrity checks and dead letter queues",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 800,
+              "y": 200
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "process",
+            "id": "lambda-processors",
+            "zIndex": 6,
+            "data": {
+              "type": "tm.Process",
+              "name": "Lambda Functions",
+              "description": "Serverless processing functions for various tasks",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebService": true,
+              "privilegeLevel": "Medium",
+              "threats": [
+                {
+                  "id": "threat-12",
+                  "title": "Elevation of Privilege - Function Permissions",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Lambda functions could have excessive permissions",
+                  "mitigation": "Apply least privilege IAM roles, regular permission reviews",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": ""
+                },
+                {
+                  "id": "threat-13",
+                  "title": "Information Disclosure - Environment Variables",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Sensitive configuration could be exposed in environment variables",
+                  "mitigation": "Use AWS Systems Manager Parameter Store or Secrets Manager",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 1050,
+              "y": 125
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "store",
+            "id": "s3-processed",
+            "zIndex": 7,
+            "data": {
+              "type": "tm.Store",
+              "name": "S3 Processed Data",
+              "description": "Storage for transcripts, analysis results, and processed data",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": true,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-14",
+                  "title": "Information Disclosure - Processed Data Access",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Sensitive processed data including transcripts could be accessed",
+                  "mitigation": "Implement strict IAM policies, bucket encryption, and access logging",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 300,
+              "y": 350
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "actor",
+            "id": "cicd-pipeline",
+            "zIndex": 8,
+            "data": {
+              "type": "tm.Actor",
+              "name": "CI/CD Pipeline",
+              "description": "Bitbucket + JIRA + ECR + ECS deployment pipeline",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "threat-15",
+                  "title": "Tampering - Code Injection",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Malicious code could be injected through CI/CD pipeline",
+                  "mitigation": "Implement code signing, secure build environments, and approval workflows",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 15,
+                  "score": ""
+                },
+                {
+                  "id": "threat-16",
+                  "title": "Elevation of Privilege - Pipeline Compromise",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Compromised CI/CD pipeline could deploy malicious code",
+                  "mitigation": "Secure pipeline credentials, multi-factor authentication, and deployment approvals",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 550,
+              "y": 350
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "store",
+            "id": "ecr-registry",
+            "zIndex": 9,
+            "data": {
+              "type": "tm.Store",
+              "name": "ECR Container Registry",
+              "description": "Container image registry with versioning and immutability",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": true,
+              "isSigned": true,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "threat-17",
+                  "title": "Tampering - Image Modification",
+                  "type": "Tampering",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "description": "Container images could be modified after creation",
+                  "mitigation": "ECR immutability enabled, image signing implemented",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": ""
+                },
+                {
+                  "id": "threat-18",
+                  "title": "Information Disclosure - Vulnerable Images",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Container images might contain vulnerabilities",
+                  "mitigation": "Enable ECR image scanning, regular vulnerability assessments",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 800,
+              "y": 350
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "process",
+            "id": "ecs-services",
+            "zIndex": 10,
+            "data": {
+              "type": "tm.Process",
+              "name": "ECS Services",
+              "description": "Container orchestration and application hosting",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebService": true,
+              "privilegeLevel": "High",
+              "threats": [
+                {
+                  "id": "threat-19",
+                  "title": "Elevation of Privilege - Container Escape",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "High",
+                  "description": "Attackers could escape container boundaries",
+                  "mitigation": "Use Fargate for isolation, implement security contexts, regular patching",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 19,
+                  "score": ""
+                },
+                {
+                  "id": "threat-20",
+                  "title": "Denial of Service - Resource Exhaustion",
+                  "type": "Denial of service",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Services could be overwhelmed by excessive requests",
+                  "mitigation": "Implement auto-scaling, resource limits, and load balancing",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 20,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 50,
+              "y": 500
+            },
+            "size": {
+              "width": 120,
+              "height": 80
+            },
+            "shape": "actor",
+            "id": "qa-team",
+            "zIndex": 11,
+            "data": {
+              "type": "tm.Actor",
+              "name": "QA Team",
+              "description": "Quality assurance team performing code reviews",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "threat-21",
+                  "title": "Elevation of Privilege - Insider Threat",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "QA team members could abuse access privileges",
+                  "mitigation": "Implement role-based access control, regular access reviews, and audit logging",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": ""
+                },
+                {
+                  "id": "threat-22",
+                  "title": "Repudiation - Review Process",
+                  "type": "Repudiation",
+                  "status": "Open",
+                  "severity": "Low",
+                  "description": "Code review activities might not be properly documented",
+                  "mitigation": "Maintain detailed review logs and approval workflows in JIRA",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 22,
+                  "score": ""
+                }
+              ]
+            }
+          }
+        ],
+        "diagramJson": {
+          "cells": []
+        }
+      }
+    ],
+    "reviewer": "Security Team"
+  }
+}

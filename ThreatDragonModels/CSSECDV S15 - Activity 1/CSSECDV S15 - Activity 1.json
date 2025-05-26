@@ -431,7 +431,7 @@
                 }
               ],
               "threatFrequency": {
-                "spoofing": 1,
+                "spoofing": 2,
                 "repudiation": 0
               }
             }
@@ -515,7 +515,7 @@
             "vertices": [
               {
                 "x": 421,
-                "y": 200
+                "y": 220
               }
             ]
           },
@@ -642,6 +642,50 @@
               "port": "716eaadd-b3d8-4ead-a226-c17c0d8f706d"
             },
             "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "labels": [
+              "Data Flow"
+            ],
+            "id": "898d24a1-b0c4-40b6-9929-d7a597136ba3",
+            "source": {
+              "x": 90,
+              "y": 330
+            },
+            "target": {
+              "x": 190,
+              "y": 430
+            }
           }
         ],
         "description": "This is a description."
